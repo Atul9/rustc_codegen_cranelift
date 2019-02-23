@@ -320,6 +320,7 @@ fn trans_mono_item<'clif, 'tcx, B: Backend + 'static>(
             let _inst_guard =
                 PrintOnPanic(|| format!("{:?} {}", inst, tcx.symbol_name(inst).as_str()));
             debug_assert!(!inst.substs.needs_infer());
+            /*
             let _mir_guard = PrintOnPanic(|| {
                 match inst.def {
                     InstanceDef::Item(_)
@@ -340,6 +341,7 @@ fn trans_mono_item<'clif, 'tcx, B: Backend + 'static>(
                     }
                 }
             });
+            */
 
             crate::base::trans_fn(cx, inst, linkage);
         }
