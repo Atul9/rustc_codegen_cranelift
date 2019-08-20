@@ -155,6 +155,11 @@ fn codegen_fn_content(fx: &mut FunctionCx<'_, '_, impl Backend>) {
                 target,
                 cleanup: _,
             } => {
+                if !fx.tcx.sess.overflow_checks() {
+                    if let PanicInfo::OverflowNeg = *msg {
+                        fx.bcx.ins().jump(target, &[]);
+                    }
+                }
                 let cond = trans_operand(fx, cond).load_scalar(fx);
                 // TODO HACK brz/brnz for i8/i16 is not yet implemented
                 let cond = fx.bcx.ins().uextend(types::I32, cond);
